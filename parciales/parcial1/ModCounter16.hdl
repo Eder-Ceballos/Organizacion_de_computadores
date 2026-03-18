@@ -1,0 +1,38 @@
+/**en codigo que entienda nandtwotetris implementar un contador que incremente en cada ciclo
+*cuando la entrada "en" sea igual a 1, con capacidad de:
+*Reset sincrono a 0 cuando rst =1
+*Carga de un valor inicial init[16] cuando load=1
+*Conteo modulo N: dado N[16]>0, cuando el conteo alcance N-1, el siguiente valor debe ser 0
+*Salidas: valor actual de out[16] y bandera wrap (se activa en 1 cuando se produce el reinicio a 0 por alcanzar N-1)
+*/
+CHIP ModCounter16 {
+    IN N[16], init[16], en, load, rst;
+    OUT out[16], wrap;
+
+    PARTS:
+    Inc16(in=currentOut, out=nextVal);
+
+    Xor16(a=nextVal, b=N, out=diff);
+    Or16Way(in=diff, out=notEqual); // Or16Way debe ser implementado con Or8Way
+    Not(in=notEqual, out=hitN); 
+
+    And(a=en, b=hitN, out=willWrap);
+    
+    Mux16(a=currentOut, b=nextVal, sel=en, out=v1);
+
+    Mux16(a=v1, b=false, sel=willWrap, out=v2);
+    
+   
+    Mux16(a=v2, b=init, sel=load, out=v3);
+    
+
+    Mux16(a=v3, b=false, sel=rst, out=nextRegisterVal);
+
+    
+    Register(in=nextRegisterVal, load=true, out=out, out=currentOut);
+
+
+    And(a=true, b=willWrap, out=wrap);
+}
+
+

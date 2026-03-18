@@ -1,0 +1,26 @@
+/**crea un circuito que reciba una entrada de 16 bits y produzca un bit de salida llamado p
+* que indica la paridad par de la palabra (1 si el numero de unos en a es impar; 0 si es par)
+*/
+CHIP Parity16 {
+    IN a[16];
+    OUT p;
+
+    PARTS:
+    Xor(a=a[0], b=a[1], out=xor1);
+    Xor(a=xor1, b=a[2], out=xor2);
+    Xor(a=xor2, b=a[3], out=xor3);
+    Xor(a=xor3, b=a[4], out=xor4);
+    Xor(a=xor4, b=a[5], out=xor5);
+    Xor(a=xor5, b=a[6], out=xor6);
+    Xor(a=xor6, b=a[7], out=xor7);
+    Xor(a=xor7, b=a[8], out=xor8);
+    Xor(a=xor8, b=a[9], out=xor9);
+    Xor(a=xor9, b=a[10], out=xor10);
+    Xor(a=xor10, b=a[11], out=xor11);
+    Xor(a=xor11, b=a[12], out=xor12);
+    Xor(a=xor12, b=a[13], out=xor13);
+    Xor(a=xor13, b=a[14], out=xor14);
+    Xor(a=xor14, b=a[15], out=p);
+}
+
+
